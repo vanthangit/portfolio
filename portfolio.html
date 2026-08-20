@@ -1,0 +1,743 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Thang Nguyen · Data Analyst</title>
+<meta name="description" content="Portfolio of Nguyen Van Thang — Data Analyst & Analytics Engineer. BI dashboards, RFM segmentation, churn diagnostics and market-data pipelines." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;700;800&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+<style>
+  /* ============ Tokens ============ */
+  :root{
+    --bg:#F6F7F9;
+    --bg-alt:#FFFFFF;
+    --ink:#121820;
+    --ink-soft:#56606D;
+    --ink-faint:#8A93A0;
+    --line:#DCE1E7;
+    --line-strong:#C2C9D2;
+    --accent:#0E7C66;
+    --accent-ink:#FFFFFF;
+    --accent-soft:#E4F2EE;
+    --highlight:#1E3A66;
+    --highlight-soft:#E4E9F3;
+    --grid-line: rgba(18,24,32,0.055);
+    --shadow: 0 1px 2px rgba(18,24,32,0.04);
+    --shadow-lift: 0 18px 40px -22px rgba(18,24,32,0.28);
+    --radius: 3px;
+    --font-display:'Archivo', 'Arial Narrow', sans-serif;
+    --font-body:'IBM Plex Sans', 'Segoe UI', sans-serif;
+    --font-mono:'IBM Plex Mono', 'Consolas', monospace;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --bg:#0B1116;
+      --bg-alt:#111920;
+      --ink:#E8ECEF;
+      --ink-soft:#9DA9B4;
+      --ink-faint:#66707C;
+      --line:#223039;
+      --line-strong:#2D3D47;
+      --accent:#33B79A;
+      --accent-ink:#06120F;
+      --accent-soft:rgba(51,183,154,0.14);
+      --highlight:#7099E0;
+      --highlight-soft:rgba(112,153,224,0.16);
+      --grid-line: rgba(255,255,255,0.045);
+      --shadow: 0 1px 2px rgba(0,0,0,0.3);
+      --shadow-lift: 0 18px 40px -22px rgba(0,0,0,0.6);
+    }
+  }
+  :root[data-theme="dark"]{
+    --bg:#0B1116;
+    --bg-alt:#111920;
+    --ink:#E8ECEF;
+    --ink-soft:#9DA9B4;
+    --ink-faint:#66707C;
+    --line:#223039;
+    --line-strong:#2D3D47;
+    --accent:#33B79A;
+    --accent-ink:#06120F;
+    --accent-soft:rgba(51,183,154,0.14);
+    --highlight:#E8935A;
+    --highlight-soft:rgba(232,147,90,0.13);
+    --grid-line: rgba(255,255,255,0.045);
+    --shadow: 0 1px 2px rgba(0,0,0,0.3);
+    --shadow-lift: 0 18px 40px -22px rgba(0,0,0,0.6);
+  }
+
+  /* ============ Reset ============ */
+  *,*::before,*::after{ box-sizing:border-box; }
+  html{ scroll-behavior:smooth; }
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--ink);
+    font-family:var(--font-body);
+    font-size:16px;
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+  }
+  h1,h2,h3{ font-family:var(--font-display); margin:0; text-wrap:balance; }
+  p{ margin:0; }
+  a{ color:inherit; }
+  ul{ margin:0; padding:0; list-style:none; }
+  img{ max-width:100%; display:block; }
+  ::selection{ background:var(--accent); color:var(--accent-ink); }
+  :focus-visible{ outline:2px solid var(--accent); outline-offset:3px; }
+  @media (prefers-reduced-motion: reduce){
+    html{ scroll-behavior:auto; }
+    *,*::before,*::after{ animation-duration:0.001ms !important; transition-duration:0.001ms !important; }
+  }
+
+  .wrap{ max-width:1080px; margin:0 auto; padding:0 28px; }
+  @media (max-width:640px){ .wrap{ padding:0 20px; } }
+
+  /* faint graph-paper ground, used behind hero + body */
+  body{
+    background-image:
+      linear-gradient(var(--grid-line) 1px, transparent 1px),
+      linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
+    background-size: 40px 40px;
+    background-attachment:fixed;
+  }
+
+  /* ============ Nav ============ */
+  header.site{
+    position:sticky; top:0; z-index:50;
+    background:color-mix(in srgb, var(--bg) 86%, transparent);
+    backdrop-filter:blur(8px);
+    border-bottom:1px solid var(--line);
+  }
+  .navbar{
+    display:flex; align-items:center; justify-content:space-between;
+    gap:20px; padding:16px 28px; max-width:1080px; margin:0 auto;
+  }
+  .brand{
+    font-family:var(--font-mono); font-weight:600; font-size:14px;
+    letter-spacing:.04em; text-decoration:none; white-space:nowrap;
+  }
+  .brand b{ color:var(--accent); }
+  nav.links{ display:flex; flex-wrap:wrap; gap:4px 6px; }
+  nav.links a{
+    font-family:var(--font-mono); font-size:12.5px; letter-spacing:.03em;
+    text-decoration:none; color:var(--ink-soft);
+    padding:7px 11px; border-radius:var(--radius);
+    transition:color .15s ease, background .15s ease;
+  }
+  nav.links a:hover{ color:var(--ink); background:var(--bg-alt); }
+
+  /* ============ Shared bits ============ */
+  .eyebrow{
+    display:flex; align-items:center; gap:10px;
+    font-family:var(--font-mono); font-size:12.5px; letter-spacing:.08em;
+    color:var(--accent); text-transform:uppercase; margin-bottom:14px;
+  }
+  .eyebrow .idx{ color:var(--ink-faint); }
+  .eyebrow::after{
+    content:''; height:1px; flex:1; background:var(--line-strong);
+  }
+  section{ padding:88px 0; border-bottom:1px solid var(--line); }
+  section:last-of-type{ border-bottom:none; }
+  .section-title{ font-size:clamp(26px,3.4vw,34px); font-weight:800; letter-spacing:-.01em; }
+
+  .reveal{ opacity:0; transform:translateY(14px); transition:opacity .55s ease, transform .55s ease; }
+  .reveal.is-visible{ opacity:1; transform:none; }
+
+  .btn{
+    display:inline-flex; align-items:center; gap:8px;
+    font-family:var(--font-mono); font-size:13px; letter-spacing:.02em;
+    padding:12px 20px; border-radius:var(--radius);
+    text-decoration:none; border:1px solid transparent; cursor:pointer;
+    transition:transform .15s ease, background .15s ease, border-color .15s ease;
+  }
+  .btn:hover{ transform:translateY(-1px); }
+  .btn-primary{ background:var(--accent); color:var(--accent-ink); font-weight:600; }
+  .btn-primary:hover{ background:color-mix(in srgb, var(--accent) 88%, black); }
+  .btn-ghost{ border-color:var(--line-strong); color:var(--ink); }
+  .btn-ghost:hover{ border-color:var(--accent); color:var(--accent); }
+  .btn-disabled{
+    font-family:var(--font-mono); font-size:12.5px; color:var(--ink-faint);
+    border:1px dashed var(--line-strong); padding:11px 16px; border-radius:var(--radius);
+    display:inline-flex; align-items:center; gap:8px; cursor:default;
+  }
+
+  .pill{
+    font-family:var(--font-mono); font-size:12px; letter-spacing:.02em;
+    padding:6px 12px; border-radius:100px; border:1px solid var(--line-strong);
+    color:var(--ink-soft); white-space:nowrap;
+  }
+
+  /* ============ Hero ============ */
+  .hero{ padding:76px 0 88px; border-bottom:1px solid var(--line); }
+  .hero-grid{ display:grid; grid-template-columns:1.05fr .95fr; gap:56px; align-items:start; }
+  @media (max-width:860px){ .hero-grid{ grid-template-columns:1fr; } }
+
+  .hero h1{ font-size:clamp(38px,6vw,60px); font-weight:800; letter-spacing:-.02em; line-height:1.02; margin:6px 0 18px; }
+  .hero .role{ font-family:var(--font-mono); font-size:13.5px; letter-spacing:.09em; color:var(--accent); text-transform:uppercase; }
+  .hero p.lede{ font-size:17.5px; color:var(--ink-soft); max-width:52ch; margin-bottom:26px; }
+  .hero .cta-row{ display:flex; flex-wrap:wrap; gap:12px; margin-bottom:30px; }
+  .meta-row{ display:flex; flex-wrap:wrap; gap:8px; }
+  .meta-row a.pill{ text-decoration:none; }
+  .meta-row a.pill:hover{ border-color:var(--accent); color:var(--accent); }
+
+  .hero-id{ display:flex; align-items:center; gap:18px; margin-bottom:16px; }
+  .avatar-frame{
+    width:100px; height:124px; flex-shrink:0; border-radius:4px; overflow:hidden;
+    border:1px solid var(--line); box-shadow:var(--shadow); background:var(--bg-alt);
+  }
+  .avatar-frame img{ width:100%; height:100%; object-fit:cover; display:block; }
+  .hero-id .id-text{ display:flex; flex-direction:column; gap:8px; }
+  .hero-id h1{ margin:0; }
+  @media (max-width:480px){ .avatar-frame{ width:72px; height:90px; } .hero-id{ gap:14px; } }
+
+  .kpi-grid{ display:grid; grid-template-columns:1fr 1fr; gap:1px; background:var(--line); border:1px solid var(--line); border-radius:4px; overflow:hidden; }
+  .kpi-tile{ background:var(--bg-alt); padding:20px 18px; min-height:118px; display:flex; flex-direction:column; justify-content:space-between; }
+  .kpi-num{ font-family:var(--font-mono); font-weight:600; font-size:clamp(20px,2.6vw,26px); color:var(--highlight); font-variant-numeric:tabular-nums; }
+  .kpi-label{ font-size:12.5px; color:var(--ink-soft); margin-top:8px; line-height:1.4; }
+
+  /* ============ About ============ */
+  .about-grid{ display:grid; grid-template-columns:1.3fr .9fr; gap:56px; }
+  @media (max-width:820px){ .about-grid{ grid-template-columns:1fr; } }
+  .about-grid p{ color:var(--ink-soft); font-size:16.5px; max-width:60ch; }
+  .about-grid p + p{ margin-top:14px; }
+
+  .facts{ border:1px solid var(--line); border-radius:4px; overflow:hidden; background:var(--bg-alt); }
+  .facts-row{ display:grid; grid-template-columns:110px 1fr; gap:14px; padding:14px 18px; border-bottom:1px solid var(--line); }
+  .facts-row:last-child{ border-bottom:none; }
+  .facts-row dt{ font-family:var(--font-mono); font-size:11.5px; letter-spacing:.06em; text-transform:uppercase; color:var(--ink-faint); }
+  .facts-row dd{ margin:0; font-size:14.5px; }
+  .facts-row dd small{ display:block; color:var(--ink-soft); font-size:13px; margin-top:2px; }
+
+  /* ============ Experience ============ */
+  .job-head{ display:flex; flex-wrap:wrap; justify-content:space-between; gap:8px 20px; margin-bottom:30px; }
+  .job-head h3{ font-size:22px; font-weight:700; }
+  .job-head .company{ color:var(--accent); font-weight:700; }
+  .job-head .when{ font-family:var(--font-mono); font-size:13px; color:var(--ink-faint); text-align:right; }
+
+  .timeline{ border-top:1px solid var(--line); }
+  .t-item{ display:grid; grid-template-columns:40px 1fr; gap:18px; padding:22px 0; border-bottom:1px solid var(--line); }
+  .t-item .idx{ font-family:var(--font-mono); font-size:13px; color:var(--ink-faint); padding-top:2px; }
+  .t-item p{ color:var(--ink-soft); font-size:15.5px; }
+  .t-item .hl{ color:var(--highlight); font-family:var(--font-mono); font-weight:600; }
+
+  /* ============ Projects ============ */
+  .proj-grid{ display:grid; grid-template-columns:1fr 1fr; gap:26px; }
+  @media (max-width:860px){ .proj-grid{ grid-template-columns:1fr; } }
+  .card{
+    background:var(--bg-alt); border:1px solid var(--line); border-radius:4px;
+    padding:26px 26px 24px; display:flex; flex-direction:column; gap:16px;
+    min-width:0;
+    transition:transform .18s ease, box-shadow .18s ease, border-color .18s ease;
+  }
+  .card:hover{ transform:translateY(-3px); box-shadow:var(--shadow-lift); border-color:var(--line-strong); }
+  .card-head{ display:flex; justify-content:space-between; align-items:baseline; gap:12px; }
+  .card-head h3{ font-size:19.5px; font-weight:700; }
+  .card-head .yr{ font-family:var(--font-mono); font-size:12.5px; color:var(--ink-faint); }
+  .tech-row{ display:flex; flex-wrap:wrap; gap:6px; }
+  .tech-row .pill{ font-size:11px; padding:4px 9px; }
+
+  .gallery{ display:flex; flex-direction:column; gap:10px; }
+  .gallery-main-btn{
+    all:unset; position:relative; display:block; cursor:zoom-in;
+    border:1px solid var(--line); border-radius:3px; overflow:hidden; background:var(--bg);
+  }
+  .gallery-main-btn img{ width:100%; aspect-ratio:16/10; object-fit:cover; object-position:top; display:block; transition:transform .3s ease; }
+  .gallery-main-btn:hover img{ transform:scale(1.02); }
+  .zoom-hint{
+    position:absolute; right:8px; bottom:8px; font-family:var(--font-mono); font-size:10.5px;
+    letter-spacing:.03em; color:var(--bg-alt); background:color-mix(in srgb, var(--ink) 78%, transparent);
+    padding:4px 8px; border-radius:2px; opacity:0; transition:opacity .15s ease;
+  }
+  .gallery-main-btn:hover .zoom-hint, .gallery-main-btn:focus-visible .zoom-hint{ opacity:1; }
+  .gallery-thumbs{ display:flex; gap:7px; overflow-x:auto; padding-bottom:2px; }
+  .gallery-thumbs::-webkit-scrollbar{ height:5px; }
+  .gallery-thumbs::-webkit-scrollbar-thumb{ background:var(--line-strong); border-radius:3px; }
+  .thumb{
+    all:unset; flex-shrink:0; width:64px; cursor:pointer; display:flex; flex-direction:column; gap:4px;
+  }
+  .thumb img{
+    width:64px; height:40px; object-fit:cover; object-position:top; border-radius:2px;
+    border:1.5px solid var(--line); display:block; transition:border-color .15s ease, opacity .15s ease;
+    opacity:.72;
+  }
+  .thumb span{
+    font-family:var(--font-mono); font-size:9px; color:var(--ink-faint); letter-spacing:.02em;
+    white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+  }
+  .thumb:hover img{ border-color:var(--line-strong); opacity:1; }
+  .thumb.is-active img{ border-color:var(--accent); opacity:1; }
+  .thumb.is-active span{ color:var(--accent); }
+  .thumb:focus-visible img{ outline:2px solid var(--accent); outline-offset:2px; }
+
+  #lightbox{
+    position:fixed; inset:0; z-index:100; display:none; align-items:center; justify-content:center;
+    background:rgba(8,11,14,0.94); padding:40px 24px;
+  }
+  #lightbox.is-open{ display:flex; }
+  #lightbox figure{ margin:0; max-width:min(1100px,92vw); display:flex; flex-direction:column; gap:12px; align-items:center; }
+  #lightbox img{ max-width:100%; max-height:78vh; object-fit:contain; border-radius:3px; box-shadow:0 24px 60px -20px rgba(0,0,0,0.7); }
+  #lightbox figcaption{ font-family:var(--font-mono); font-size:12.5px; color:#EEF1F3; letter-spacing:.02em; }
+  .lb-close, .lb-prev, .lb-next{
+    all:unset; position:fixed; cursor:pointer; color:#EEF1F3; font-family:var(--font-mono);
+    background:rgba(255,255,255,0.14); border-radius:100px;
+    display:flex; align-items:center; justify-content:center; transition:background .15s ease;
+  }
+  .lb-close:hover, .lb-prev:hover, .lb-next:hover{ background:rgba(255,255,255,0.26); }
+  .lb-close{ top:20px; right:20px; width:38px; height:38px; font-size:18px; }
+  .lb-prev, .lb-next{ top:50%; transform:translateY(-50%); width:44px; height:44px; font-size:18px; }
+  .lb-prev{ left:16px; }
+  .lb-next{ right:16px; }
+  @media (max-width:640px){ .lb-prev, .lb-next{ display:none; } }
+
+  .card ul.bullets{ display:flex; flex-direction:column; gap:8px; }
+  .card ul.bullets li{ color:var(--ink-soft); font-size:14.5px; padding-left:16px; position:relative; }
+  .card ul.bullets li::before{ content:'—'; position:absolute; left:0; color:var(--ink-faint); }
+  .card .hl{ color:var(--highlight); font-family:var(--font-mono); font-weight:600; }
+
+  .metric-row{ display:flex; gap:10px; flex-wrap:wrap; }
+  .metric{ background:var(--highlight-soft); border-radius:3px; padding:8px 12px; flex:1; min-width:120px; }
+  .metric b{ display:block; font-family:var(--font-mono); font-size:16px; color:var(--highlight); font-variant-numeric:tabular-nums; }
+  .metric span{ font-size:11.5px; color:var(--ink-soft); }
+
+  .card-foot{ display:flex; align-items:center; justify-content:space-between; gap:12px; margin-top:auto; padding-top:6px; }
+
+  /* ============ Skills ============ */
+  .skill-groups{ display:grid; grid-template-columns:repeat(2,1fr); gap:30px 40px; }
+  @media (max-width:700px){ .skill-groups{ grid-template-columns:1fr; } }
+  .skill-group h4{ font-family:var(--font-mono); font-size:12px; letter-spacing:.08em; text-transform:uppercase; color:var(--ink-faint); margin-bottom:12px; }
+  .skill-tags{ display:flex; flex-wrap:wrap; gap:8px; }
+
+  /* ============ Contact ============ */
+  .contact-band{ display:grid; grid-template-columns:1.1fr .9fr; gap:40px; align-items:center; }
+  @media (max-width:780px){ .contact-band{ grid-template-columns:1fr; } }
+  .contact-band h2{ font-size:clamp(30px,4.2vw,44px); font-weight:800; letter-spacing:-.02em; }
+  .contact-list{ display:flex; flex-direction:column; gap:2px; border:1px solid var(--line); border-radius:4px; overflow:hidden; }
+  .contact-list a, .contact-list .row{
+    display:flex; justify-content:space-between; padding:16px 18px;
+    text-decoration:none; border-bottom:1px solid var(--line); background:var(--bg-alt);
+    transition:background .15s ease;
+  }
+  .contact-list a:hover{ background:var(--accent-soft); }
+  .contact-list a:last-child, .contact-list .row:last-child{ border-bottom:none; }
+  .contact-list dt{ font-family:var(--font-mono); font-size:11.5px; color:var(--ink-faint); letter-spacing:.06em; text-transform:uppercase; }
+  .contact-list dd{ margin:0; font-size:14.5px; font-family:var(--font-mono); }
+
+  footer{ padding:26px 0 40px; }
+  footer .wrap{ display:flex; justify-content:space-between; flex-wrap:wrap; gap:8px; font-family:var(--font-mono); font-size:12px; color:var(--ink-faint); }
+</style>
+</head>
+<body>
+
+<header class="site">
+  <div class="navbar">
+    <a class="brand" href="#top">TN <b>·</b> DATA ANALYST</a>
+    <nav class="links">
+      <a href="#about">About</a>
+      <a href="#experience">Experience</a>
+      <a href="#projects">Projects</a>
+      <a href="#skills">Skills</a>
+      <a href="#contact">Contact</a>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+
+  <!-- ============ HERO ============ -->
+  <section class="hero">
+    <div class="wrap hero-grid">
+      <div>
+        <div class="hero-id">
+          <div class="avatar-frame"><img src="img/myself/AnhThe.png" alt="Portrait of Nguyen Van Thang" /></div>
+          <div class="id-text">
+            <div class="role">Data Analyst · Analytics Engineer</div>
+            <h1>Nguyen Van&nbsp;Thang</h1>
+          </div>
+        </div>
+        <p class="lede">I turn raw business data into decisions — standardizing market datasets, geocoding store-expansion context, and building BI dashboards that trace revenue and churn back to their root cause.</p>
+        <div class="cta-row">
+          <a class="btn btn-primary" href="#projects">View projects</a>
+          <a class="btn btn-ghost" href="#contact">Get in touch</a>
+        </div>
+        <div class="meta-row">
+          <a class="pill" href="mailto:nvthangforwork@gmail.com">nvthangforwork@gmail.com</a>
+          <a class="pill" href="tel:+84369945674">+84 369 945 674</a>
+          <a class="pill" href="https://www.linkedin.com/in/vanthangit" target="_blank" rel="noopener">linkedin.com/in/vanthangit</a>
+          <span class="pill">Ho Chi Minh City, VN</span>
+        </div>
+      </div>
+
+      <div class="kpi-grid" aria-label="Selected results">
+        <div class="kpi-tile"><span class="kpi-num" data-count data-target="53.8" data-decimals="1" data-suffix="%">0%</span><span class="kpi-label">D1→D3 retention decline diagnosed to its onboarding root cause</span></div>
+        <div class="kpi-tile"><span class="kpi-num" data-count data-target="10.6" data-decimals="1" data-suffix="%">0%</span><span class="kpi-label">of players (VIP + Big Spenders) drove 100% of IAP revenue</span></div>
+        <div class="kpi-tile"><span class="kpi-num" data-count data-target="59.9" data-decimals="1" data-prefix="₫" data-suffix="M/mo">0</span><span class="kpi-label">balance at risk in the bank's top "Can't Lose" segment</span></div>
+        <div class="kpi-tile"><span class="kpi-num" data-count data-target="74.2" data-decimals="1" data-suffix="%">0%</span><span class="kpi-label">external outflow ratio pinpointed on the highest-value cohort</span></div>
+        <div class="kpi-tile"><span class="kpi-num" data-count data-target="7300" data-decimals="0" data-suffix="+">0</span><span class="kpi-label">POIs geocoded across provinces for a store-expansion model</span></div>
+        <div class="kpi-tile"><span class="kpi-num" data-count data-target="38" data-decimals="0" data-suffix="">0</span><span class="kpi-label">GSO macro indicators standardized, 2016–2026</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ ABOUT ============ -->
+  <section id="about">
+    <div class="wrap">
+      <div class="eyebrow"><span class="idx">01</span><span>About</span></div>
+      <div class="about-grid reveal">
+        <div>
+          <h2 class="section-title" style="margin-bottom:18px;">Business intelligence with a data-engineering foundation.</h2>
+          <p>I'm a Data Analyst with hands-on internship experience across market research, customer analytics, and business intelligence, backed by a Data Engineering degree. My work sits between the raw dataset and the decision it should inform — cleaning and modeling data in SQL, Python, Excel, and Power BI, then shaping it into segmentation, cohort, and root-cause analyses a business team can act on.</p>
+          <p>Recent work spans macroeconomic data standardization, POI geocoding for retail expansion, RFM-based customer segmentation for a mobile game and a bank's CASA portfolio, and a Python-built reporting framework that replaced manual Excel reporting for an analytics team.</p>
+        </div>
+        <dl class="facts">
+          <div class="facts-row"><dt>Education</dt><dd>Ho Chi Minh City University of Technology and Engineering<small>B.Eng. Data Engineering · 2022–Jul 2026 · GPA 3.52/4.00</small></dd></div>
+          <div class="facts-row"><dt>Certs</dt><dd>Coursera<small>Machine Learning Specialization · Deep Learning Specialization</small></dd></div>
+          <div class="facts-row"><dt>Language</dt><dd>TOEIC 650 <small>(2024)</small></dd></div>
+          <div class="facts-row"><dt>Based in</dt><dd>Ho Chi Minh City, Vietnam</dd></div>
+        </dl>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ EXPERIENCE ============ -->
+  <section id="experience">
+    <div class="wrap">
+      <div class="eyebrow"><span class="idx">02</span><span>Experience</span></div>
+      <div class="reveal">
+        <div class="job-head">
+          <div>
+            <h3>Data Analysis Intern — <span class="company">PNJ Group</span></h3>
+          </div>
+          <div class="when">May 2026 – Aug 2026<br>Ho Chi Minh City, VN</div>
+        </div>
+        <ul class="timeline">
+          <li class="t-item"><span class="idx">01</span><p>Standardized <span class="hl">38</span> GSO macroeconomic indicators (GDP, CPI, retail sales, industrial production; 2016–2026) in Excel, forming the market-context layer of the MNIS pipeline.</p></li>
+          <li class="t-item"><span class="idx">02</span><p>Geocoded <span class="hl">7,300+</span> POIs (competitor stores, malls, schools, hospitals) across provinces in Excel/Power Query, feeding the MNIS Impact Score model for store-expansion decisions.</p></li>
+          <li class="t-item"><span class="idx">03</span><p>Analyzed <span class="hl">4</span> buyback policy revisions (2021–2026) in Excel/PowerPoint, timelining pricing and term changes to support root-cause analysis of customer complaints.</p></li>
+          <li class="t-item"><span class="idx">04</span><p>Mapped <span class="hl">15+</span> customer–PNJ touchpoints across 3 journey stages to CDP/SAP/VOC systems in draw.io, identifying data behind CRM engagement and lead-conversion actions.</p></li>
+          <li class="t-item"><span class="idx">05</span><p>Compared daily buyback value before/after the May 2026 NPH trust crisis in Excel PivotTables, finding a <span class="hl">101–185%</span> surge across diamond, gold, and gem lines to inform inventory risk monitoring.</p></li>
+          <li class="t-item"><span class="idx">06</span><p>Built an <span class="hl">8-module</span> Python/HTML/CSS/JS reporting framework converting Excel exports into dashboards with rule-based commentary, cutting the analytics team's manual reporting effort.</p></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ PROJECTS ============ -->
+  <section id="projects">
+    <div class="wrap">
+      <div class="eyebrow"><span class="idx">03</span><span>Projects</span></div>
+      <div class="proj-grid reveal">
+
+        <article class="card">
+          <div class="card-head">
+            <h3>Mobile Game Analytics Dashboard</h3>
+            <span class="yr">2026</span>
+          </div>
+          <div class="tech-row">
+            <span class="pill">SQL</span><span class="pill">BigQuery</span><span class="pill">Power BI</span><span class="pill">DAX</span><span class="pill">Data Modeling</span>
+          </div>
+          <div class="gallery" data-gallery="mobilegame">
+            <button class="gallery-main-btn" type="button" aria-label="Enlarge dashboard screenshot">
+              <img class="gallery-main" src="img/mobilegame/2_Overview.png" alt="Mobile Game Analytics Dashboard — Overview page" />
+              <span class="zoom-hint">Click to enlarge</span>
+            </button>
+            <div class="gallery-thumbs"></div>
+          </div>
+          <ul class="bullets">
+            <li>6-page Power BI dashboard covering engagement, revenue drivers, and churn, built on 30-day GA4-style event data extracted and aggregated from BigQuery via <span class="hl">SQL</span>.</li>
+            <li>RFM segmentation, cohort retention analysis, and funnel-based root-cause diagnostics tracing churn back to onboarding drop-off.</li>
+          </ul>
+          <div class="metric-row">
+            <div class="metric"><b>10.6%</b><span>of users drove 100% of IAP revenue</span></div>
+            <div class="metric"><b>53.8%</b><span>D1→D3 retention decline</span></div>
+          </div>
+          <div class="card-foot">
+            <span class="btn-disabled">Live Power BI link coming soon</span>
+          </div>
+        </article>
+
+        <article class="card">
+          <div class="card-head">
+            <h3>CASA Customer Analysis Dashboard</h3>
+            <span class="yr">2026</span>
+          </div>
+          <div class="tech-row">
+            <span class="pill">Python</span><span class="pill">BigQuery</span><span class="pill">Power BI</span><span class="pill">DAX</span><span class="pill">Power Query</span>
+          </div>
+          <div class="gallery" data-gallery="banking">
+            <button class="gallery-main-btn" type="button" aria-label="Enlarge dashboard screenshot">
+              <img class="gallery-main" src="img/banking/2_Overview.png" alt="CASA Customer Analysis Dashboard — Overview page" />
+              <span class="zoom-hint">Click to enlarge</span>
+            </button>
+            <div class="gallery-thumbs"></div>
+          </div>
+          <ul class="bullets">
+            <li>8-page Power BI dashboard for a bank's CASA portfolio, with customer and transaction data cleaned and modeled using DAX and Power Query.</li>
+            <li>RFM segmentation with percentile-based scoring (P25–P98) across 8 segments, plus migration-matrix and root-cause diagnostics tracing value erosion and churn risk.</li>
+          </ul>
+          <div class="metric-row">
+            <div class="metric"><b>₫59.9M</b><span>/mo lost in top "Can't Lose" segment</span></div>
+            <div class="metric"><b>6,133</b><span>customers on Low Engagement→Lost</span></div>
+          </div>
+          <div class="card-foot">
+            <span class="btn-disabled">Live Power BI link coming soon</span>
+          </div>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ SKILLS ============ -->
+  <section id="skills">
+    <div class="wrap">
+      <div class="eyebrow"><span class="idx">04</span><span>Skills</span></div>
+      <div class="skill-groups reveal">
+        <div class="skill-group">
+          <h4>Programming</h4>
+          <div class="skill-tags">
+            <span class="pill">Python</span><span class="pill">SQL — Joins</span><span class="pill">CTEs</span><span class="pill">Window Functions</span>
+          </div>
+        </div>
+        <div class="skill-group">
+          <h4>Data Analytics</h4>
+          <div class="skill-tags">
+            <span class="pill">Data Cleaning</span><span class="pill">EDA</span><span class="pill">Statistical Analysis</span><span class="pill">Business Analysis</span><span class="pill">Data Visualization</span><span class="pill">Data Storytelling</span>
+          </div>
+        </div>
+        <div class="skill-group">
+          <h4>BI &amp; Reporting</h4>
+          <div class="skill-tags">
+            <span class="pill">Power BI</span><span class="pill">DAX</span><span class="pill">Power Query</span><span class="pill">Excel PivotTables</span>
+          </div>
+        </div>
+        <div class="skill-group">
+          <h4>Database</h4>
+          <div class="skill-tags">
+            <span class="pill">SQL Server</span><span class="pill">ETL</span><span class="pill">Data Warehouse</span><span class="pill">SSIS</span><span class="pill">SSAS</span><span class="pill">BigQuery</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ CONTACT ============ -->
+  <section id="contact">
+    <div class="wrap contact-band reveal">
+      <div>
+        <div class="eyebrow"><span class="idx">05</span><span>Contact</span></div>
+        <h2>Let's talk about your data.</h2>
+        <p style="color:var(--ink-soft); max-width:46ch; margin-top:14px;">Open to Data Analyst and Analytics Engineer roles. The fastest way to reach me is email — I usually reply within a day.</p>
+      </div>
+      <dl class="contact-list">
+        <a href="mailto:nvthangforwork@gmail.com"><dt>Email</dt><dd>nvthangforwork@gmail.com</dd></a>
+        <a href="tel:+84369945674"><dt>Phone</dt><dd>+84 369 945 674</dd></a>
+        <a href="https://www.linkedin.com/in/vanthangit" target="_blank" rel="noopener"><dt>LinkedIn</dt><dd>/in/vanthangit</dd></a>
+        <div class="row"><dt>Location</dt><dd>Ho Chi Minh City, VN</dd></div>
+      </dl>
+    </div>
+  </section>
+
+</main>
+
+<div id="lightbox" role="dialog" aria-modal="true" aria-label="Dashboard screenshot viewer">
+  <button class="lb-close" type="button" aria-label="Close">&#10005;</button>
+  <button class="lb-prev" type="button" aria-label="Previous page">&#8249;</button>
+  <button class="lb-next" type="button" aria-label="Next page">&#8250;</button>
+  <figure>
+    <img id="lb-img" src="" alt="" />
+    <figcaption id="lb-caption"></figcaption>
+  </figure>
+</div>
+
+<footer>
+  <div class="wrap">
+    <span>© 2026 Nguyen Van Thang</span>
+    <span>Built with HTML, CSS &amp; JS</span>
+  </div>
+</footer>
+
+<script>
+  // scroll reveal
+  var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var revealEls = document.querySelectorAll('.reveal');
+  if (reduceMotion || !('IntersectionObserver' in window)) {
+    revealEls.forEach(function(el){ el.classList.add('is-visible'); });
+  } else {
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(entry){
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-visible');
+          io.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.15 });
+    revealEls.forEach(function(el){ io.observe(el); });
+  }
+
+  // KPI count-up
+  var counters = document.querySelectorAll('[data-count]');
+  function animateCounter(el){
+    var target = parseFloat(el.getAttribute('data-target'));
+    var decimals = parseInt(el.getAttribute('data-decimals') || '0', 10);
+    var prefix = el.getAttribute('data-prefix') || '';
+    var suffix = el.getAttribute('data-suffix') || '';
+    if (reduceMotion) {
+      el.textContent = prefix + target.toFixed(decimals) + suffix;
+      return;
+    }
+    var start = null;
+    var duration = 1100;
+    function step(ts){
+      if (!start) start = ts;
+      var progress = Math.min((ts - start) / duration, 1);
+      var eased = 1 - Math.pow(1 - progress, 3);
+      var value = target * eased;
+      el.textContent = prefix + value.toFixed(decimals) + suffix;
+      if (progress < 1) requestAnimationFrame(step);
+    }
+    requestAnimationFrame(step);
+  }
+  if ('IntersectionObserver' in window) {
+    var cio = new IntersectionObserver(function(entries){
+      entries.forEach(function(entry){
+        if (entry.isIntersecting) {
+          animateCounter(entry.target);
+          cio.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.4 });
+    counters.forEach(function(el){ cio.observe(el); });
+  } else {
+    counters.forEach(animateCounter);
+  }
+
+  // ============ Project dashboard galleries + lightbox ============
+  var GALLERIES = {
+    mobilegame: {
+      title: 'Mobile Game Analytics Dashboard',
+      defaultIndex: 1,
+      pages: [
+        { file:'1_TableofContents.png', label:'Table of Contents' },
+        { file:'2_Overview.png', label:'Overview' },
+        { file:'3_Financial.png', label:'Financial' },
+        { file:'4_CustomerJourney.png', label:'Customer Journey' },
+        { file:'5_CustomerSegmentation.png', label:'Customer Segmentation' },
+        { file:'6_ChurnDiagnostic.png', label:'Churn Diagnostic' },
+        { file:'7_BusinessGlossary.png', label:'Business Glossary' }
+      ]
+    },
+    banking: {
+      title: 'CASA Customer Analysis Dashboard',
+      defaultIndex: 1,
+      pages: [
+        { file:'1_TableofContents.png', label:'Table of Contents' },
+        { file:'2_Overview.png', label:'Overview' },
+        { file:'3_CASAHealth.png', label:'CASA Health' },
+        { file:'4_RFMModel.png', label:'RFM Model' },
+        { file:'5_SegmentProfile.png', label:'Segment Profile' },
+        { file:'6_SegmentMigration.png', label:'Segment Migration' },
+        { file:'7_RootCauseAnalysis.png', label:'Root Cause Analysis' },
+        { file:'8_ActionPlan.png', label:'Action Plan' },
+        { file:'9_BusinessGlossary.png', label:'Business Glossary' }
+      ]
+    }
+  };
+
+  function pageSrc(key, i){ return 'img/' + key + '/' + GALLERIES[key].pages[i].file; }
+
+  var galleryState = { key:null, index:0 };
+
+  function selectPage(key, index){
+    galleryState.key = key;
+    galleryState.index = index;
+    var data = GALLERIES[key];
+    var container = document.querySelector('.gallery[data-gallery="' + key + '"]');
+    var mainImg = container.querySelector('.gallery-main');
+    mainImg.src = pageSrc(key, index);
+    mainImg.alt = data.title + ' — ' + data.pages[index].label + ' page';
+    container.querySelectorAll('.thumb').forEach(function(t, i){
+      t.classList.toggle('is-active', i === index);
+      t.setAttribute('aria-current', i === index ? 'true' : 'false');
+    });
+    if (lightbox.classList.contains('is-open')) renderLightbox();
+  }
+
+  function buildGallery(key){
+    var data = GALLERIES[key];
+    var container = document.querySelector('.gallery[data-gallery="' + key + '"]');
+    if (!container) return;
+    var thumbRow = container.querySelector('.gallery-thumbs');
+    data.pages.forEach(function(page, i){
+      var thumb = document.createElement('button');
+      thumb.type = 'button';
+      thumb.className = 'thumb';
+      thumb.setAttribute('aria-label', page.label);
+      var img = document.createElement('img');
+      img.src = 'img/' + key + '/' + page.file;
+      img.alt = '';
+      img.loading = 'lazy';
+      var span = document.createElement('span');
+      span.textContent = page.label;
+      thumb.appendChild(img);
+      thumb.appendChild(span);
+      thumb.addEventListener('click', function(){ selectPage(key, i); });
+      thumbRow.appendChild(thumb);
+    });
+    selectPage(key, data.defaultIndex);
+    container.querySelector('.gallery-main-btn').addEventListener('click', function(){
+      openLightbox(key, galleryState.index);
+    });
+  }
+
+  var lightbox = document.getElementById('lightbox');
+  var lbImg = document.getElementById('lb-img');
+  var lbCaption = document.getElementById('lb-caption');
+
+  function renderLightbox(){
+    var data = GALLERIES[galleryState.key];
+    var page = data.pages[galleryState.index];
+    lbImg.src = pageSrc(galleryState.key, galleryState.index);
+    lbImg.alt = data.title + ' — ' + page.label + ' page';
+    lbCaption.textContent = data.title + ' — ' + page.label + ' (' + (galleryState.index + 1) + '/' + data.pages.length + ')';
+  }
+
+  function openLightbox(key, index){
+    galleryState.key = key;
+    galleryState.index = index;
+    renderLightbox();
+    lightbox.classList.add('is-open');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeLightbox(){
+    lightbox.classList.remove('is-open');
+    document.body.style.overflow = '';
+  }
+
+  function stepLightbox(delta){
+    var data = GALLERIES[galleryState.key];
+    var len = data.pages.length;
+    galleryState.index = (galleryState.index + delta + len) % len;
+    renderLightbox();
+    selectPage(galleryState.key, galleryState.index);
+  }
+
+  lightbox.querySelector('.lb-close').addEventListener('click', closeLightbox);
+  lightbox.querySelector('.lb-prev').addEventListener('click', function(){ stepLightbox(-1); });
+  lightbox.querySelector('.lb-next').addEventListener('click', function(){ stepLightbox(1); });
+  lightbox.addEventListener('click', function(e){ if (e.target === lightbox) closeLightbox(); });
+  document.addEventListener('keydown', function(e){
+    if (!lightbox.classList.contains('is-open')) return;
+    if (e.key === 'Escape') closeLightbox();
+    if (e.key === 'ArrowLeft') stepLightbox(-1);
+    if (e.key === 'ArrowRight') stepLightbox(1);
+  });
+
+  Object.keys(GALLERIES).forEach(buildGallery);
+</script>
+
+</body>
+</html>
