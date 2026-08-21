@@ -4,7 +4,7 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Thang Nguyen · Data Analyst</title>
-<meta name="description" content="Portfolio of Nguyen Van Thang — Data Analyst & Analytics Engineer. BI dashboards, RFM segmentation, churn diagnostics and market-data pipelines." />
+<meta name="description" content="Portfolio of Nguyen Van Thang — Data Analyst & Analytics Engineer. BI dashboards, RFM segmentation, profit root-cause diagnostics, and a self-built data lakehouse with an agentic NL2SQL chatbot." />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;700;800&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
@@ -61,8 +61,8 @@
     --accent:#33B79A;
     --accent-ink:#06120F;
     --accent-soft:rgba(51,183,154,0.14);
-    --highlight:#E8935A;
-    --highlight-soft:rgba(232,147,90,0.13);
+    --highlight:#7099E0;
+    --highlight-soft:rgba(112,153,224,0.16);
     --grid-line: rgba(255,255,255,0.045);
     --shadow: 0 1px 2px rgba(0,0,0,0.3);
     --shadow-lift: 0 18px 40px -22px rgba(0,0,0,0.6);
@@ -197,6 +197,7 @@
   .kpi-tile{ background:var(--bg-alt); padding:20px 18px; min-height:118px; display:flex; flex-direction:column; justify-content:space-between; }
   .kpi-num{ font-family:var(--font-mono); font-weight:600; font-size:clamp(20px,2.6vw,26px); color:var(--highlight); font-variant-numeric:tabular-nums; }
   .kpi-label{ font-size:12.5px; color:var(--ink-soft); margin-top:8px; line-height:1.4; }
+  .kpi-src{ display:block; font-family:var(--font-mono); font-size:10px; letter-spacing:.07em; text-transform:uppercase; color:var(--accent); margin-bottom:3px; }
 
   /* ============ About ============ */
   .about-grid{ display:grid; grid-template-columns:1.3fr .9fr; gap:56px; }
@@ -304,6 +305,29 @@
 
   .card-foot{ display:flex; align-items:center; justify-content:space-between; gap:12px; margin-top:auto; padding-top:6px; }
 
+  /* ---- Case study accordion (SCQA) ---- */
+  .case-study{ border-top:1px solid var(--line); padding-top:14px; }
+  .case-study summary{
+    cursor:pointer; list-style:none; display:flex; align-items:center; gap:7px;
+    font-family:var(--font-mono); font-size:12.5px; letter-spacing:.02em; color:var(--accent);
+    -webkit-tap-highlight-color:transparent;
+  }
+  .case-study summary::-webkit-details-marker{ display:none; }
+  .case-study summary .chev{ font-size:10px; transition:transform .2s ease; }
+  .case-study[open] summary .chev{ transform:rotate(90deg); }
+  .case-study summary:hover{ color:color-mix(in srgb, var(--accent) 82%, black); }
+  .scqa{ display:flex; flex-direction:column; gap:14px; margin-top:16px; }
+  .scqa-block .tag{
+    display:block; font-family:var(--font-mono); font-size:10.5px; letter-spacing:.09em;
+    text-transform:uppercase; color:var(--ink-faint); margin-bottom:5px;
+  }
+  .scqa-block p, .scqa-limits p{ color:var(--ink-soft); font-size:14px; text-align:justify; text-justify:inter-word; }
+  .scqa-block .hl{ color:var(--highlight); font-family:var(--font-mono); font-weight:600; }
+  .scqa-block p b{ color:var(--ink); }
+  .scqa-block p code{ font-family:var(--font-mono); font-size:.92em; background:var(--bg); padding:1px 5px; border-radius:2px; }
+  .scqa-limits{ padding:12px 14px; background:var(--bg); border:1px solid var(--line); border-radius:3px; }
+  .scqa-limits .tag{ margin-bottom:5px; }
+
   /* ============ Skills ============ */
   .skill-groups{ display:grid; grid-template-columns:repeat(2,1fr); gap:30px 40px; }
   @media (max-width:700px){ .skill-groups{ grid-template-columns:1fr; } }
@@ -371,12 +395,12 @@
       </div>
 
       <div class="kpi-grid" aria-label="Selected results">
-        <div class="kpi-tile"><span class="kpi-num" data-count data-target="53.8" data-decimals="1" data-suffix="%">0%</span><span class="kpi-label">D1→D3 retention decline diagnosed to its onboarding root cause</span></div>
-        <div class="kpi-tile"><span class="kpi-num" data-count data-target="10.6" data-decimals="1" data-suffix="%">0%</span><span class="kpi-label">of players (VIP + Big Spenders) drove 100% of IAP revenue</span></div>
-        <div class="kpi-tile"><span class="kpi-num" data-count data-target="59.9" data-decimals="1" data-prefix="₫" data-suffix="M/mo">0</span><span class="kpi-label">balance at risk in the bank's top "Can't Lose" segment</span></div>
-        <div class="kpi-tile"><span class="kpi-num" data-count data-target="74.2" data-decimals="1" data-suffix="%">0%</span><span class="kpi-label">external outflow ratio pinpointed on the highest-value cohort</span></div>
-        <div class="kpi-tile"><span class="kpi-num" data-count data-target="7300" data-decimals="0" data-suffix="+">0</span><span class="kpi-label">POIs geocoded across provinces for a store-expansion model</span></div>
-        <div class="kpi-tile"><span class="kpi-num" data-count data-target="38" data-decimals="0" data-suffix="">0</span><span class="kpi-label">GSO macro indicators standardized, 2016–2026</span></div>
+        <div class="kpi-tile"><span class="kpi-num" data-count data-target="53.8" data-decimals="1" data-suffix="%">0%</span><span class="kpi-label"><span class="kpi-src">Mobile Game</span>D1→D3 retention decline diagnosed to its onboarding root cause</span></div>
+        <div class="kpi-tile"><span class="kpi-num" data-count data-target="10.6" data-decimals="1" data-suffix="%">0%</span><span class="kpi-label"><span class="kpi-src">Mobile Game</span>of players (VIP + Big Spenders) drove 100% of IAP revenue</span></div>
+        <div class="kpi-tile"><span class="kpi-num" data-count data-target="59.9" data-decimals="1" data-prefix="₫" data-suffix="M/mo">0</span><span class="kpi-label"><span class="kpi-src">CASA Bank</span>balance at risk in the bank's top "Can't Lose" segment</span></div>
+        <div class="kpi-tile"><span class="kpi-num" data-count data-target="74.2" data-decimals="1" data-suffix="%">0%</span><span class="kpi-label"><span class="kpi-src">CASA Bank</span>external outflow ratio pinpointed on the highest-value cohort</span></div>
+        <div class="kpi-tile"><span class="kpi-num" data-count data-target="7300" data-decimals="0" data-suffix="+">0</span><span class="kpi-label"><span class="kpi-src">PNJ Internship</span>POIs geocoded across provinces for a store-expansion model</span></div>
+        <div class="kpi-tile"><span class="kpi-num" data-count data-target="38" data-decimals="0" data-suffix="">0</span><span class="kpi-label"><span class="kpi-src">PNJ Internship</span>GSO macro indicators standardized, 2016–2026</span></div>
       </div>
     </div>
   </section>
@@ -389,7 +413,7 @@
         <div>
           <h2 class="section-title" style="margin-bottom:18px;">Business intelligence with a data-engineering foundation.</h2>
           <p>I'm a Data Analyst with hands-on internship experience across market research, customer analytics, and business intelligence, backed by a Data Engineering degree. My work sits between the raw dataset and the decision it should inform — cleaning and modeling data in SQL, Python, Excel, and Power BI, then shaping it into segmentation, cohort, and root-cause analyses a business team can act on.</p>
-          <p>Recent work spans macroeconomic data standardization, POI geocoding for retail expansion, RFM-based customer segmentation for a mobile game and a bank's CASA portfolio, and a Python-built reporting framework that replaced manual Excel reporting for an analytics team.</p>
+          <p>Recent work spans macroeconomic data standardization and POI geocoding for retail expansion, RFM segmentation for a mobile game and a bank's CASA portfolio, a profit root-cause investigation told through Apache Superset, and a self-built data lakehouse with an agentic NL2SQL chatbot — each one closing the loop from raw data to a specific, defensible recommendation.</p>
         </div>
         <dl class="facts">
           <div class="facts-row"><dt>Education</dt><dd>Ho Chi Minh City University of Technology and Engineering<small>B.Eng. Data Engineering · 2022–Jul 2026 · GPA 3.52/4.00</small></dd></div>
@@ -453,6 +477,27 @@
             <div class="metric"><b>10.6%</b><span>of users drove 100% of IAP revenue</span></div>
             <div class="metric"><b>53.8%</b><span>D1→D3 retention decline</span></div>
           </div>
+          <details class="case-study">
+            <summary><span class="chev">▸</span> Read the full case study</summary>
+            <div class="scqa">
+              <div class="scqa-block">
+                <span class="tag">Situation</span>
+                <p>Thirty days of raw GA4-style event data sat in BigQuery — engagement, in-app purchases, ad revenue, tutorial progression — but no unified view connected what users do to what the business earns.</p>
+              </div>
+              <div class="scqa-block">
+                <span class="tag">Complication</span>
+                <p>DAU swung between 5.7K and 19.5K with no matching swing in revenue. D1 retention sat at just <span class="hl">14.21%</span>, dropping 53.8% by D3, and 48.9% of users had already fallen to At Risk or Churned. The obvious follow-ups hit real data traps: no channel-level cost breakdown, <code>ad_source</code> reflecting in-game ad interaction rather than install attribution, and a <code>tutorial_step_id</code> that reset across segments — every shortcut had a bias.</p>
+              </div>
+              <div class="scqa-block">
+                <span class="tag">Question</span>
+                <p>Which users actually drive this business, why are the rest leaving so fast, and what can be said with confidence given what the data can and can't prove?</p>
+              </div>
+              <div class="scqa-block">
+                <span class="tag">Answer</span>
+                <p>SQL/BigQuery extraction feeding RFM segmentation, cohort retention (D1/D3/D7 with maturity filtering), and DAX funnel diagnostics closed the chain: onboarding drop-off explained the D1→D3 collapse, the same low-progress users fed the At-Risk/Churned pool, and RFM confirmed <span class="hl">10.6%</span> of users — VIP and Big Spenders — generated <span class="hl">100%</span> of IAP revenue while also holding the best D7 retention (24.71%). Along the way, I caught a selection bias in the ad-network analysis (engaged users naturally accumulate more ad-interaction data, unrelated to acquisition quality) and deliberately dropped a "tutorial completion" metric once the step-ID structure proved unable to support it — a funnel view instead of a number I couldn't stand behind.</p>
+              </div>
+            </div>
+          </details>
           <div class="card-foot">
             <span class="btn-disabled">Live Power BI link coming soon</span>
           </div>
@@ -481,6 +526,27 @@
             <div class="metric"><b>₫59.9M</b><span>/mo lost in top "Can't Lose" segment</span></div>
             <div class="metric"><b>6,133</b><span>customers on Low Engagement→Lost</span></div>
           </div>
+          <details class="case-study">
+            <summary><span class="chev">▸</span> Read the full case study</summary>
+            <div class="scqa">
+              <div class="scqa-block">
+                <span class="tag">Situation</span>
+                <p>A large CASA (Current Account Savings Account) portfolio was being served with blanket outreach and offers — no systematic way to tell which customers mattered most by balance, transaction frequency, or engagement with the bank.</p>
+              </div>
+              <div class="scqa-block">
+                <span class="tag">Complication</span>
+                <p>A subset of high-balance customers was quietly leaving — money flowing out to competitor banks — while RM/CSKH outreach wasn't prioritized toward them, for lack of an early-warning signal on high-value customers at risk of churn. Left unaddressed, the bank stood to lose exactly the customers contributing the most to deposits.</p>
+              </div>
+              <div class="scqa-block">
+                <span class="tag">Question</span>
+                <p>Which customer groups need action first, and what should the bank do to retain and grow lifetime value in each?</p>
+              </div>
+              <div class="scqa-block">
+                <span class="tag">Answer</span>
+                <p>Built an RFM model (Recency–Frequency–Monetary, Monetary = average balance) with percentile scoring (P25–P98) and IQR-fenced outliers, classifying customers into 8 segments — Champion, Golden, Potential, Normal, Low Engagement, Can't Lose, At Risk, Lost — across an 8-tab Power BI dashboard covering the full customer lifecycle. The Can't Lose segment, the system's 2nd-highest balance tier, turned out to be shrinking fastest (<span class="hl">-₫59.9M</span>/month) with the highest external-outflow ratio (<span class="hl">74.2%</span>) — money moving to competitors — while the single largest migration flow system-wide was Low Engagement → Lost (<span class="hl">6,133</span> customers). The dashboard closes with a 5-segment action plan prioritized by business impact, from urgent RM intervention on Can't Lose to gamification and cross-sell for Potential.</p>
+              </div>
+            </div>
+          </details>
           <div class="card-foot">
             <span class="btn-disabled">Live Power BI link coming soon</span>
           </div>
@@ -492,25 +558,46 @@
             <span class="yr">2026</span>
           </div>
           <div class="tech-row">
-            <span class="pill">Power BI</span><span class="pill">DAX</span><span class="pill">Power Query</span><span class="pill">Root-Cause Analysis</span><span class="pill">Data Storytelling</span>
+            <span class="pill">Apache Superset</span><span class="pill">SQL</span><span class="pill">Root-Cause Analysis</span><span class="pill">Statistical Analysis</span><span class="pill">Data Storytelling</span>
           </div>
           <div class="gallery" data-gallery="superstore">
-            <button class="gallery-main-btn" type="button" aria-label="Enlarge report page">
-              <img class="gallery-main" src="img/superstore/1.png" alt="Superstore Profit Storytelling Dashboard — Growth Overview page" />
+            <button class="gallery-main-btn" type="button" aria-label="Enlarge dashboard section">
+              <img class="gallery-main" src="img/superstore/1.png" alt="Superstore Profit Storytelling Dashboard — Growth Overview chapter" />
               <span class="zoom-hint">Click to enlarge</span>
             </button>
             <div class="gallery-thumbs"></div>
           </div>
           <ul class="bullets">
-            <li>9-page Power BI storytelling report tracing revenue growth (+52% over 2011–2014) into a <span class="hl">discount-driven</span> profitability problem.</li>
+            <li>One continuous Apache Superset narrative dashboard — a single scrolling data story, exported to PDF — tracing revenue growth (+52% over 2011–2014) into a <span class="hl">discount-driven</span> profitability problem.</li>
             <li>Root-cause diagnostics across sub-categories, shipping modes, customer segments, and states pinpoint exactly where growth is being cancelled out.</li>
           </ul>
           <div class="metric-row">
             <div class="metric"><b>26.3%</b><span>of 5,009 orders lose money</span></div>
             <div class="metric"><b>12.5%</b><span>net margin on $2.29M revenue</span></div>
           </div>
+          <details class="case-study">
+            <summary><span class="chev">▸</span> Read the full case study</summary>
+            <div class="scqa">
+              <div class="scqa-block">
+                <span class="tag">Situation</span>
+                <p>Superstore, a US furniture / office-supplies / tech retailer, grew revenue steadily from 2011–2014 ($484K → $734K, 5,009 orders, $2.29M total). On the surface, a clean growth story.</p>
+              </div>
+              <div class="scqa-block">
+                <span class="tag">Complication</span>
+                <p>Profit didn't keep pace: only $286K in total profit (≈12.5% net margin), and 1,318 of 5,009 orders (26.3%) were unprofitable. The root cause traced to discounting — margin turns negative past ~20% off, total losses reach <span class="hl">-$10.4K</span> at a 30% discount, and <span class="hl">100%</span> of orders lose money at 32%+. The damage spread into product mix (Tables, Bookcases, and Supplies carry high revenue but negative margin), customer segments (Consumer drives 50% of orders at the lowest margin, 11.5%), and geography (Texas alone lost $25.7K on ~$170K revenue, with the Central region concentrating the Furniture losses).</p>
+              </div>
+              <div class="scqa-block">
+                <span class="tag">Question</span>
+                <p>Is the business trading away too much profit to chase revenue growth — and are discount policy, product mix, and regional strategy being applied indiscriminately, causing losses in exactly the places that need the tightest control?</p>
+              </div>
+              <div class="scqa-block">
+                <span class="tag">Answer</span>
+                <p>A continuous Apache Superset narrative dashboard walks through the evidence chain and lands on four calls to action: cap discounts around 15–20%, where margin turns nonlinear before going negative; review three structurally unprofitable sub-categories — Tables (-8.6%), Bookcases (-3.0%), Supplies (-2.5%); replace one-size-fits-all regional policy with tighter discount and logistics control in Texas/Central, alongside real investment in the underused, highest-margin Home Office segment (14.0%); and stop over-indexing on fast shipping, since Same Day doesn't meaningfully outperform Standard Class on profit.</p>
+              </div>
+            </div>
+          </details>
           <div class="card-foot">
-            <span class="btn-disabled">Live Power BI link coming soon</span>
+            <span class="btn-disabled">Live Superset link coming soon</span>
           </div>
         </article>
 
@@ -520,7 +607,7 @@
             <span class="yr">2026</span>
           </div>
           <div class="tech-row">
-            <span class="pill">PySpark</span><span class="pill">Apache Iceberg</span><span class="pill">Trino</span><span class="pill">LangGraph</span><span class="pill">MLflow</span>
+            <span class="pill">PySpark</span><span class="pill">Apache Iceberg</span><span class="pill">Trino</span><span class="pill">LangGraph</span><span class="pill">MLflow</span><span class="pill">Apache Superset</span>
           </div>
           <div class="gallery" data-gallery="lakehouse">
             <button class="gallery-main-btn" type="button" aria-label="Enlarge screenshot">
@@ -537,6 +624,31 @@
             <div class="metric"><b>93.0%</b><span>NL2SQL pass rate, 100 benchmark cases</span></div>
             <div class="metric"><b>3×</b><span>faster Trino query planning</span></div>
           </div>
+          <details class="case-study">
+            <summary><span class="chev">▸</span> Read the full case study</summary>
+            <div class="scqa">
+              <div class="scqa-block">
+                <span class="tag">Situation</span>
+                <p>Modern businesses need not just large-scale storage but low-latency processing for timely decisions. Traditional Data Warehouse and Data Lake models each hit limits on cost, latency, or scale on their own — especially once historical batch data and continuously-generated streaming behavior both need handling at once.</p>
+              </div>
+              <div class="scqa-block">
+                <span class="tag">Complication</span>
+                <p>Three barriers stood in the way: no unified architecture giving both ACID integrity and parallel batch + streaming processing; ML models reaching production without experiment tracking, versioning, or automatic drift detection to trigger retraining; and non-technical end users locked out by SQL, widening the gap between data and decision-makers.</p>
+              </div>
+              <div class="scqa-block">
+                <span class="tag">Question</span>
+                <p>Can a closed-loop data platform — ingestion through storage, processing, forecasting, and natural-language interaction — be built end-to-end on open-source technology and proven reliable at enterprise scale?</p>
+              </div>
+              <div class="scqa-block">
+                <span class="tag">Answer</span>
+                <p>A 3-layer platform, containerized with Docker Compose across 10+ coordinated services. <b>Lakehouse &amp; streaming:</b> a Medallion architecture (Bronze–Silver–Gold) on Apache Iceberg + MinIO processes Olist batch data via Spark alongside real-time Kafka events, orchestrated by 4 Airflow DAGs — 7/7 Gold-layer integrity checks pass, and every Trino query across Bronze→Gold returns under 0.2s (Gold layer: 0.09–0.12s). <b>MLOps:</b> 3 forecasting models (LightGBM, Prophet, LSTM) are trained and compared via MLflow tracking + registry, with automated drift detection triggering monthly retraining — Prophet wins (RMSE 14,860, MAE 12,459), fitting the data's clear seasonality. <b>Chatbot:</b> a LangGraph multi-agent system (Supervisor → Retrieval → SQL → Analyst) with two-stage RAG (ChromaDB + cross-encoder reranking) and a 3-attempt SQL self-healing loop reaches <span class="hl">93%</span> accuracy on a 100-question benchmark, served through a Streamlit UI for non-technical users.</p>
+              </div>
+              <div class="scqa-limits">
+                <span class="tag">Limitations (documented, not hidden)</span>
+                <p>Single-node proof-of-concept, not production-scale; streaming data is simulated; the local LLM (Qwen 2.5 Coder 3B via Ollama) responds in 10–35s; MLOps has no automated model ensembling yet; and the human-in-the-loop review for failed queries currently stops at log collection.</p>
+              </div>
+            </div>
+          </details>
           <div class="card-foot">
             <span class="btn-disabled">Source code / live demo link coming soon</span>
           </div>
@@ -674,6 +786,7 @@
   var GALLERIES = {
     superstore: {
       title: 'Superstore Profit Storytelling Dashboard',
+      unit: 'chapter',
       defaultIndex: 0,
       pages: [
         { file:'1.png', label:'Growth Overview' },
@@ -689,6 +802,7 @@
     },
     lakehouse: {
       title: 'Enterprise Data Lakehouse & Agentic AI Platform',
+      unit: 'view',
       defaultIndex: 0,
       pages: [
         { file:'Kien%20truc.png', label:'System Architecture' },
@@ -700,6 +814,7 @@
     },
     mobilegame: {
       title: 'Mobile Game Analytics Dashboard',
+      unit: 'page',
       defaultIndex: 1,
       pages: [
         { file:'1_TableofContents.png', label:'Table of Contents' },
@@ -713,6 +828,7 @@
     },
     banking: {
       title: 'CASA Customer Analysis Dashboard',
+      unit: 'page',
       defaultIndex: 1,
       pages: [
         { file:'1_TableofContents.png', label:'Table of Contents' },
@@ -739,7 +855,7 @@
     var container = document.querySelector('.gallery[data-gallery="' + key + '"]');
     var mainImg = container.querySelector('.gallery-main');
     mainImg.src = pageSrc(key, index);
-    mainImg.alt = data.title + ' — ' + data.pages[index].label + ' page';
+    mainImg.alt = data.title + ' — ' + data.pages[index].label + ' ' + data.unit;
     container.querySelectorAll('.thumb').forEach(function(t, i){
       t.classList.toggle('is-active', i === index);
       t.setAttribute('aria-current', i === index ? 'true' : 'false');
@@ -782,7 +898,7 @@
     var data = GALLERIES[galleryState.key];
     var page = data.pages[galleryState.index];
     lbImg.src = pageSrc(galleryState.key, galleryState.index);
-    lbImg.alt = data.title + ' — ' + page.label + ' page';
+    lbImg.alt = data.title + ' — ' + page.label + ' ' + data.unit;
     lbCaption.textContent = data.title + ' — ' + page.label + ' (' + (galleryState.index + 1) + '/' + data.pages.length + ')';
   }
 
