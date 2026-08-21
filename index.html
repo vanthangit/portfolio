@@ -486,6 +486,62 @@
           </div>
         </article>
 
+        <article class="card">
+          <div class="card-head">
+            <h3>Superstore Profit Storytelling Dashboard</h3>
+            <span class="yr">2026</span>
+          </div>
+          <div class="tech-row">
+            <span class="pill">Power BI</span><span class="pill">DAX</span><span class="pill">Power Query</span><span class="pill">Root-Cause Analysis</span><span class="pill">Data Storytelling</span>
+          </div>
+          <div class="gallery" data-gallery="superstore">
+            <button class="gallery-main-btn" type="button" aria-label="Enlarge report page">
+              <img class="gallery-main" src="img/superstore/1.png" alt="Superstore Profit Storytelling Dashboard — Growth Overview page" />
+              <span class="zoom-hint">Click to enlarge</span>
+            </button>
+            <div class="gallery-thumbs"></div>
+          </div>
+          <ul class="bullets">
+            <li>9-page Power BI storytelling report tracing revenue growth (+52% over 2011–2014) into a <span class="hl">discount-driven</span> profitability problem.</li>
+            <li>Root-cause diagnostics across sub-categories, shipping modes, customer segments, and states pinpoint exactly where growth is being cancelled out.</li>
+          </ul>
+          <div class="metric-row">
+            <div class="metric"><b>26.3%</b><span>of 5,009 orders lose money</span></div>
+            <div class="metric"><b>12.5%</b><span>net margin on $2.29M revenue</span></div>
+          </div>
+          <div class="card-foot">
+            <span class="btn-disabled">Live Power BI link coming soon</span>
+          </div>
+        </article>
+
+        <article class="card">
+          <div class="card-head">
+            <h3>Enterprise Data Lakehouse &amp; Agentic AI Platform</h3>
+            <span class="yr">2026</span>
+          </div>
+          <div class="tech-row">
+            <span class="pill">PySpark</span><span class="pill">Apache Iceberg</span><span class="pill">Trino</span><span class="pill">LangGraph</span><span class="pill">MLflow</span>
+          </div>
+          <div class="gallery" data-gallery="lakehouse">
+            <button class="gallery-main-btn" type="button" aria-label="Enlarge screenshot">
+              <img class="gallery-main" src="img/lakehouse/Kien%20truc.png" alt="Enterprise Data Lakehouse platform — System Architecture" />
+              <span class="zoom-hint">Click to enlarge</span>
+            </button>
+            <div class="gallery-thumbs"></div>
+          </div>
+          <ul class="bullets">
+            <li>Medallion Lakehouse (Bronze→Silver→Gold) on Apache Iceberg + Trino, paired with a <span class="hl">self-healing</span> LangGraph multi-agent chatbot for NL2SQL and business Q&amp;A.</li>
+            <li>End-to-end MLOps: MLflow-tracked revenue forecasters with automated drift monitoring that triggers retraining.</li>
+          </ul>
+          <div class="metric-row">
+            <div class="metric"><b>93.0%</b><span>NL2SQL pass rate, 100 benchmark cases</span></div>
+            <div class="metric"><b>3×</b><span>faster Trino query planning</span></div>
+          </div>
+          <div class="card-foot">
+            <span class="btn-disabled">Source code / live demo link coming soon</span>
+          </div>
+        </article>
+
       </div>
     </div>
   </section>
@@ -616,6 +672,32 @@
 
   // ============ Project dashboard galleries + lightbox ============
   var GALLERIES = {
+    superstore: {
+      title: 'Superstore Profit Storytelling Dashboard',
+      defaultIndex: 0,
+      pages: [
+        { file:'1.png', label:'Growth Overview' },
+        { file:'2.png', label:'The Profit Gap' },
+        { file:'3.png', label:'Loss Snapshot' },
+        { file:'4.png', label:'Discount Root Cause' },
+        { file:'5.png', label:'Sub-Category & Shipping' },
+        { file:'6.png', label:'Customer Segments' },
+        { file:'7.png', label:'Segment Trends' },
+        { file:'8.png', label:'Geographic Hotspots' },
+        { file:'9.png', label:'Region × Sub-Category' }
+      ]
+    },
+    lakehouse: {
+      title: 'Enterprise Data Lakehouse & Agentic AI Platform',
+      defaultIndex: 0,
+      pages: [
+        { file:'Kien%20truc.png', label:'System Architecture' },
+        { file:'Chatbot_UI.png', label:'Chatbot UI' },
+        { file:'strategic_business_growth.jpg', label:'Strategic Growth Dashboard' },
+        { file:'operational_excellence.jpg', label:'Operations Dashboard' },
+        { file:'customer_behavior.png', label:'User Behavior & Funnel Dashboard' }
+      ]
+    },
     mobilegame: {
       title: 'Mobile Game Analytics Dashboard',
       defaultIndex: 1,
