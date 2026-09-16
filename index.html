@@ -302,12 +302,6 @@
 
   .card-foot{ display:flex; align-items:center; justify-content:space-between; gap:12px; margin-top:auto; padding-top:6px; }
 
-  /* ---- Wide feature card (lone project in the last row) ---- */
-  .card-feature{ grid-column:1 / -1; }
-  .feature-body{ display:grid; grid-template-columns:1.1fr .9fr; gap:28px; align-items:start; }
-  @media (max-width:860px){ .feature-body{ grid-template-columns:1fr; } }
-  .feature-side{ display:flex; flex-direction:column; gap:18px; }
-
   /* ---- Case study accordion (SCQA) ---- */
   .case-study{ border-top:1px solid var(--line); padding-top:14px; }
   .case-study summary{
@@ -418,7 +412,7 @@
         <div>
           <h2 class="section-title" style="margin-bottom:18px;">Business intelligence with a data-engineering foundation.</h2>
           <p>I'm a Data Analyst with hands-on internship experience across market research, customer analytics, and business intelligence, backed by a Data Engineering degree. My work sits between the raw dataset and the decision it should inform — cleaning and modeling data in SQL, Python, Excel, and Power BI, then shaping it into segmentation, cohort, and root-cause analyses a business team can act on.</p>
-          <p>Recent project work spans RFM segmentation for a mobile game and a bank's CASA portfolio, a profit root-cause investigation told through Apache Superset, an end-to-end ELT warehouse (dbt + Airflow) answering real growth questions in SQL, and a self-built data lakehouse with an agentic NL2SQL chatbot — each one closing the loop from raw data to a specific, defensible recommendation.</p>
+          <p>Recent project work spans RFM segmentation for a mobile game and a bank's CASA portfolio, a profit root-cause investigation told through Apache Superset, and a statistically rigorous A/B test on ad conversion lift. On the engineering side, that extends to an end-to-end ELT warehouse (dbt + Airflow) answering real growth questions in SQL and a self-built data lakehouse with an agentic NL2SQL chatbot — each one closing the loop from raw data to a specific, defensible recommendation.</p>
         </div>
         <dl class="facts">
           <div class="facts-row"><dt>Education</dt><dd>Ho Chi Minh City University of Technology and Engineering<small>B.Eng. Data Engineering · 2022–Jul 2026 · GPA 3.52/4.00</small></dd></div>
@@ -655,7 +649,7 @@
           </div>
         </article>
 
-        <article class="card card-feature">
+        <article class="card">
           <div class="card-head">
             <h3>Enterprise Data Lakehouse &amp; Agentic AI Platform</h3>
             <span class="yr">2026</span>
@@ -663,24 +657,20 @@
           <div class="tech-row">
             <span class="pill">PySpark</span><span class="pill">Apache Iceberg</span><span class="pill">Trino</span><span class="pill">LangGraph</span><span class="pill">MLflow</span><span class="pill">Apache Superset</span>
           </div>
-          <div class="feature-body">
-            <div class="gallery" data-gallery="lakehouse">
-              <button class="gallery-main-btn" type="button" aria-label="Enlarge screenshot">
-                <img class="gallery-main" src="img/lakehouse/Kien%20truc.png" alt="Enterprise Data Lakehouse platform — System Architecture" />
-                <span class="zoom-hint">Click to enlarge</span>
-              </button>
-              <div class="gallery-thumbs"></div>
-            </div>
-            <div class="feature-side">
-              <ul class="bullets">
-                <li>Medallion Lakehouse (Bronze→Silver→Gold) on Apache Iceberg + Trino, paired with a <span class="hl">self-healing</span> LangGraph multi-agent chatbot for NL2SQL and business Q&amp;A.</li>
-                <li>End-to-end MLOps: MLflow-tracked revenue forecasters with automated drift monitoring that triggers retraining.</li>
-              </ul>
-              <div class="metric-row">
-                <div class="metric"><b>93.0%</b><span>NL2SQL pass rate, 100 benchmark cases</span></div>
-                <div class="metric"><b>3×</b><span>faster Trino query planning</span></div>
-              </div>
-            </div>
+          <div class="gallery" data-gallery="lakehouse">
+            <button class="gallery-main-btn" type="button" aria-label="Enlarge screenshot">
+              <img class="gallery-main" src="img/lakehouse/Kien%20truc.png" alt="Enterprise Data Lakehouse platform — System Architecture" />
+              <span class="zoom-hint">Click to enlarge</span>
+            </button>
+            <div class="gallery-thumbs"></div>
+          </div>
+          <ul class="bullets">
+            <li>Medallion Lakehouse (Bronze→Silver→Gold) on Apache Iceberg + Trino, paired with a <span class="hl">self-healing</span> LangGraph multi-agent chatbot for NL2SQL and business Q&amp;A.</li>
+            <li>End-to-end MLOps: MLflow-tracked revenue forecasters with automated drift monitoring that triggers retraining.</li>
+          </ul>
+          <div class="metric-row">
+            <div class="metric"><b>93.0%</b><span>NL2SQL pass rate, 100 benchmark cases</span></div>
+            <div class="metric"><b>3×</b><span>faster Trino query planning</span></div>
           </div>
           <details class="case-study">
             <summary><span class="chev">▸</span> Read the full case study</summary>
@@ -709,6 +699,59 @@
           </details>
           <div class="card-foot">
             <a class="btn btn-ghost" href="https://github.com/hosi04/tlcn-lakehouse" target="_blank" rel="noopener">View source on GitHub →</a>
+          </div>
+        </article>
+
+        <article class="card">
+          <div class="card-head">
+            <h3>Marketing A/B Test: Ads vs. PSA Conversion Lift</h3>
+            <span class="yr">2026</span>
+          </div>
+          <div class="tech-row">
+            <span class="pill">Python</span><span class="pill">pandas</span><span class="pill">SciPy</span><span class="pill">statsmodels</span><span class="pill">Jupyter</span><span class="pill">A/B Testing</span>
+          </div>
+          <div class="gallery" data-gallery="abtesting">
+            <button class="gallery-main-btn" type="button" aria-label="Enlarge chart">
+              <img class="gallery-main" src="img/abtesting/1_conversion_lift.png" alt="Marketing A/B Test — Conversion Lift chart" />
+              <span class="zoom-hint">Click to enlarge</span>
+            </button>
+            <div class="gallery-thumbs"></div>
+          </div>
+          <ul class="bullets">
+            <li>Two-proportion z-test (cross-validated with a chi-square test) on 588,101 users, comparing an ads-exposed group against a PSA control to test whether ads actually lift conversion.</li>
+            <li>Retrospective power analysis (Cohen's h) and a Sample Ratio Mismatch check on the 96/4 group split, flagging a randomization risk before trusting the headline result.</li>
+          </ul>
+          <div class="metric-row">
+            <div class="metric"><b>+43.1%</b><span>relative conversion lift, ads vs. PSA (2.55% vs. 1.79%)</span></div>
+            <div class="metric"><b>96/4</b><span>group split flagged and tested for sample ratio mismatch</span></div>
+          </div>
+          <details class="case-study">
+            <summary><span class="chev">▸</span> Read the full case study</summary>
+            <div class="scqa">
+              <div class="scqa-block">
+                <span class="tag">Situation</span>
+                <p>A company ran an online experiment exposing most users to paid ads, holding out a small group who saw public-service announcements (PSAs) instead — a standard setup for isolating whether ad spend was actually moving the needle on conversion.</p>
+              </div>
+              <div class="scqa-block">
+                <span class="tag">Complication</span>
+                <p>The holdout wasn't a clean 50/50 split — 564,577 users saw ads against just 23,524 in the PSA arm, a 96/4 skew that could point to a randomization bug just as easily as an intentional design choice, and either way had to be checked before the headline result could be trusted.</p>
+              </div>
+              <div class="scqa-block">
+                <span class="tag">Question</span>
+                <p>Did the ads actually increase conversion, is the effect large and consistent enough to act on, and is the lopsided sample split hiding a problem with how the experiment was run?</p>
+              </div>
+              <div class="scqa-block">
+                <span class="tag">Answer</span>
+                <p>Ran a two-proportion z-test cross-validated with a chi-square test on the full 588,101-user dataset: ads converted at 2.55% versus 1.79% for PSA, a <span class="hl">+43.1%</span> relative lift, significant at z = 7.37, p = 1.7×10⁻¹³, with a 95% CI of [0.59pp, 0.94pp] that clears zero comfortably. A retrospective power analysis confirmed the observed effect (Cohen's h ≈ 0.053) sits well above the minimum detectable effect, at effectively 100% power, and the lift held directionally across every day-of-week and time-of-day segment checked. The <span class="hl">96/4</span> split itself was tested via chi-square goodness-of-fit (χ² = 54.32) and flagged for the experiment owners to confirm intent — a real finding doesn't excuse skipping that check.</p>
+              </div>
+              <div class="scqa-limits">
+                <span class="tag">Limitations (documented, not hidden)</span>
+                <p>No cost or revenue data, so no ROI estimate; the ads-viewed-vs-conversion relationship is confounded with engagement and reported as descriptive, not causal; segment consistency wasn't formally interaction-tested; and the 96/4 split's intent couldn't be verified from the dataset alone.</p>
+              </div>
+            </div>
+          </details>
+          <div class="card-foot">
+            <a class="btn btn-ghost" href="https://github.com/vanthangit/ab_testing" target="_blank" rel="noopener">View source on GitHub →</a>
           </div>
         </article>
 
@@ -842,6 +885,16 @@
 
   // ============ Project dashboard galleries + lightbox ============
   var GALLERIES = {
+    abtesting: {
+      title: 'Marketing A/B Test: Ads vs. PSA Conversion Lift',
+      unit: 'view',
+      defaultIndex: 0,
+      pages: [
+        { file:'1_conversion_lift.png', label:'Conversion Lift' },
+        { file:'2_sample_ratio_check.png', label:'Sample Ratio Check' },
+        { file:'3_test_summary.png', label:'Test Summary' }
+      ]
+    },
     elt: {
       title: 'Fuzzy Factory: End-to-End ELT & SQL Analytics',
       unit: 'view',
